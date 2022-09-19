@@ -1,0 +1,7 @@
+tmp
+docker/postgres/data
+
+# env
+.env
+.env.local
+.env.prod
