@@ -1,0 +1,6 @@
+{
+  "eslint.workingDirectories": ["./nuxt3/daisyui"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
