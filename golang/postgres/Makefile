@@ -11,7 +11,7 @@ ENV:=$(shell cat $(ENV_FILE))
 DIR_DATA:=./postgres/data
 
 # Arg
-ARG_WORK_DIR:=/go/src/github.com/$(PROJECT_OWNER)/$(ARG_PROJECT_NAME)
+ARG_WORK_DIR:=/go/src/github.com/$(PROJECT_OWNER)/$(PROJECT_NAME)
 
 # commands
 RM:=rm -rf
@@ -25,11 +25,11 @@ start:
 	@echo "Please wait ..."
 	@echo "------------------------"
 	@echo ""
-	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose up -d --build
+	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose -p $(PROJECT_NAME) up -d --build
 	@echo ""
 	@echo "The docker-compose environment has been successfully built."
 	@echo ""
-	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose ps
+	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose -p $(PROJECT_NAME) ps
 	@echo ""
 
 .PHONY: down
@@ -40,7 +40,7 @@ down:
 	@echo "Please wait ..."
 	@echo "------------------------"
 	@echo ""
-	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose down --rmi all --volumes --remove-orphans
+	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose -p $(PROJECT_NAME) down --rmi all --volumes --remove-orphans
 	@echo ""
 	@echo "The docker-compose environment has been successfully down."
 	@echo ""
@@ -61,7 +61,12 @@ delete-db:
 .PHONY: re
 re: delete-db down start
 
+# proccess
+.PHONY: ps
+ps:
+	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose -p $(PROJECT_NAME) ps
+
 # log
 .PHONY: log
 log:
-	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose logs -f
+	$(ENV) ENV_FILE=$(ENV_FILE) docker-compose -p $(PROJECT_NAME) logs -f
